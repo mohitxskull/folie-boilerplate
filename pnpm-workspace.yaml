@@ -1,0 +1,10 @@
+packages:
+  - packages/**
+  - frontend/**
+  - backend/**
+  - '!**/build'
+
+onlyBuiltDependencies:
+  - '@swc/core'
+  - sharp
+  - unrs-resolver

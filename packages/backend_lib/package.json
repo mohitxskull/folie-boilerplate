@@ -1,0 +1,53 @@
+{
+  "name": "@folie/package-backend-lib",
+  "version": "0.0.0",
+  "private": true,
+  "license": "UNLICENSED",
+  "type": "module",
+  "prettier": "@adonisjs/prettier-config",
+  "files": [
+    "build",
+    "!build/bin"
+  ],
+  "exports": {
+    ".": "./build/index.js",
+    "./exception": "./build/src/exceptions/index.js",
+    "./providers/*": "./build/src/providers/*.js"
+  },
+  "scripts": {
+    "clean": "del-cli build",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "prebuild": "nr clean",
+    "build": "tsc",
+    "playground": "tsx bin/playground.ts",
+    "check": "nr format && nr typecheck && nr lint"
+  },
+  "devDependencies": {
+    "@adonisjs/eslint-config": "^2.1.2",
+    "@adonisjs/prettier-config": "^1.4.5",
+    "@adonisjs/tsconfig": "^1.4.1",
+    "@eslint/eslintrc": "^3",
+    "@types/node": "^20",
+    "cpy-cli": "^5.0.0",
+    "del-cli": "^5.1.0",
+    "eslint": "^9.34.0",
+    "prettier": "^3.5.3",
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@folie/package-lib": "workspace:*",
+    "@types/pretty-hrtime": "^1.0.3",
+    "pretty-hrtime": "^1.0.3",
+    "tinyexec": "^1.0.1",
+    "ts-morph": "^26.0.0",
+    "zod": "^4.1.5"
+  },
+  "peerDependencies": {
+    "@adonisjs/core": "^6.18.0",
+    "@adonisjs/lucid": "^21.6.1",
+    "@vinejs/vine": "^3.0.1",
+    "luxon": "^3.7.1"
+  }
+}
