@@ -20,11 +20,16 @@
     "@mantine/notifications": "^8.2.8",
     "@mantine/nprogress": "^8.2.8",
     "@mantine/spotlight": "^8.2.8",
+    "@next/third-parties": "^15.5.2",
+    "@tanstack/react-query": "^5.85.9",
     "@tuyau/client": "^0.2.10",
     "dayjs": "^1.11.18",
     "next": "15.5.2",
+    "next-seo": "^6.8.0",
+    "nuqs": "^2.5.2",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "zod": "^4.1.5"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
