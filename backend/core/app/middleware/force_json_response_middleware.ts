@@ -11,6 +11,6 @@ export default class ForceJsonResponseMiddleware {
     const headers = request.headers()
     headers.accept = 'application/json'
 
-    return next()
+    return await next()
   }
 }

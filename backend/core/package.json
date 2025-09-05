@@ -1,5 +1,5 @@
 {
-  "name": "@folie/backend-core",
+  "name": "@localspace/backend-core",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -31,6 +31,7 @@
     "#providers/*": "./providers/*.js",
     "#policies/*": "./app/policies/*.js",
     "#abilities/*": "./app/abilities/*.js",
+    "#transformers/*": "./app/transformers/*.js",
     "#database/*": "./database/*.js",
     "#start/*": "./start/*.js",
     "#tests/*": "./tests/*.js",
@@ -61,12 +62,14 @@
     "@adonisjs/core": "^6.18.0",
     "@adonisjs/cors": "^2.2.1",
     "@adonisjs/lucid": "^21.6.1",
-    "@folie/package-backend-lib": "workspace:*",
+    "@folie/captcha": "^0.0.2",
+    "@localspace/package-backend-lib": "workspace:*",
     "@tuyau/core": "^0.4.2",
     "@vinejs/vine": "^3.0.1",
     "luxon": "^3.7.1",
     "mysql2": "^3.14.3",
-    "reflect-metadata": "^0.2.2"
+    "reflect-metadata": "^0.2.2",
+    "ulid": "^3.0.1"
   },
   "hotHook": {
     "boundaries": [

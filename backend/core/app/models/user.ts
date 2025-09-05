@@ -1,33 +1,60 @@
 import { DateTime } from 'luxon'
-import hash from '@adonisjs/core/services/hash'
-import { compose } from '@adonisjs/core/helpers'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
-import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
+import { BaseModel, beforeCreate, column, hasMany, hasOne, manyToMany } from '@adonisjs/lucid/orm'
 import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
+import { dbRef } from '#database/reference'
+import { ulid } from '#config/ulid'
+import Membership from './membership.js'
+import type { HasMany, HasOne, ManyToMany } from '@adonisjs/lucid/types/relations'
+import Role from './role.js'
+import Credential from './credential.js'
+import Permission from './permission.js'
+import CustomerProfile from './customer_profile.js'
+import AdminProfile from './admin_profile.js'
 
-const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
-  uids: ['email'],
-  passwordColumnName: 'password',
-})
-
-export default class User extends compose(BaseModel, AuthFinder) {
-  @column({ isPrimary: true })
-  declare id: number
-
-  @column()
-  declare fullName: string | null
-
-  @column()
-  declare email: string
-
-  @column({ serializeAs: null })
-  declare password: string
-
-  @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
-
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime | null
+export default class User extends BaseModel {
+  static selfAssignPrimaryKey = true
+  static table = dbRef.user.table.name
 
   static accessTokens = DbAccessTokensProvider.forModel(User)
+
+  // Columns ===========================
+
+  @column({ isPrimary: true })
+  declare id: string
+
+  @column()
+  declare name: string | null
+
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime<true>
+
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime<true>
+
+  // Hooks =============================
+
+  @beforeCreate()
+  static assignUlid(row: User) {
+    row.id = ulid()
+  }
+
+  // Relations =========================
+
+  @hasMany(() => Credential)
+  declare credentials: HasMany<typeof Credential>
+
+  @hasMany(() => Permission)
+  declare permissions: HasMany<typeof Permission>
+
+  @hasOne(() => CustomerProfile)
+  declare customerProfile: HasOne<typeof CustomerProfile>
+
+  @hasOne(() => AdminProfile)
+  declare adminProfile: HasOne<typeof AdminProfile>
+
+  @hasMany(() => Membership)
+  declare memberships: HasMany<typeof Membership>
+
+  @manyToMany(() => Role, dbRef.membership.table.pivot())
+  declare roles: ManyToMany<typeof Role>
 }

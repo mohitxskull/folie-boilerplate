@@ -7,13 +7,16 @@
 |
 */
 
+import { customerRoutes } from '#controllers/customer/routes'
 import router from '@adonisjs/core/services/router'
-import { NotFoundException } from '@folie/package-backend-lib/exception'
+import { NotFoundException } from '@localspace/package-backend-lib/exception'
 
 router
   .group(() => {
     router
       .group(() => {
+        customerRoutes()
+
         router.get('ping', [() => import('#controllers/ping_controller')])
       })
       .prefix('V1')

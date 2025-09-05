@@ -2,6 +2,7 @@ import env from '#start/env'
 import app from '@adonisjs/core/services/app'
 import { Secret } from '@adonisjs/core/helpers'
 import { defineConfig } from '@adonisjs/core/http'
+import { defineConfig as defineDumperConfig } from '@adonisjs/core/dumper'
 
 /**
  * The app key is used for encrypting cookies, generating signed URLs,
@@ -36,5 +37,37 @@ export const http = defineConfig({
     httpOnly: true,
     secure: app.inProduction,
     sameSite: 'lax',
+  },
+
+  trustProxy: () => true,
+})
+
+/**
+ * The global configuration used by the "dd" helper. You can
+ * separately configure the settings for both the "console"
+ * and the "html" printers.
+ */
+export const dumper = defineDumperConfig({
+  /**
+   * Settings for the console printer
+   */
+  console: {
+    depth: 10,
+
+    /**
+     * Objects that should not be further expanded. The
+     * array accepts an array of object constructor
+     * names.
+     */
+    collapse: ['DateTime', 'Date'],
+    inspectStaticMembers: true,
+  },
+
+  /**
+   * Settings for the HTML printer
+   */
+  html: {
+    depth: 10,
+    inspectStaticMembers: true,
   },
 })

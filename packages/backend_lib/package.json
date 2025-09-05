@@ -1,5 +1,5 @@
 {
-  "name": "@folie/package-backend-lib",
+  "name": "@localspace/package-backend-lib",
   "version": "0.0.0",
   "private": true,
   "license": "UNLICENSED",
@@ -12,7 +12,8 @@
   "exports": {
     ".": "./build/index.js",
     "./exception": "./build/src/exceptions/index.js",
-    "./providers/*": "./build/src/providers/*.js"
+    "./transformer": "./build/src/transformer/index.js",
+    "./column/*": "./build/src/columns/*.js"
   },
   "scripts": {
     "clean": "del-cli build",
@@ -37,7 +38,7 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "@folie/package-lib": "workspace:*",
+    "@localspace/package-lib": "workspace:*",
     "@types/pretty-hrtime": "^1.0.3",
     "pretty-hrtime": "^1.0.3",
     "tinyexec": "^1.0.1",

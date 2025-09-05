@@ -2,7 +2,7 @@ import { LucidRow } from '@adonisjs/lucid/types/model'
 import { BaseTransformer } from './base.js'
 import vine from '@vinejs/vine'
 import { SimplePaginatorContract } from '@adonisjs/lucid/types/querybuilder'
-import { promiseMap } from '@folie/package-lib'
+import { promiseMap } from '@localspace/package-lib'
 
 const PaginationMetaSchema = vine.object({
   total: vine.number(),
@@ -16,41 +16,55 @@ const PaginationMetaSchema = vine.object({
   previousPageUrl: vine.string().nullable(),
 })
 
-type TransformerConstructor<D extends LucidRow> = new (model: D) => BaseTransformer<D>
+type TransformerConstructor<TResource extends LucidRow> = new (
+  resource: TResource
+) => BaseTransformer<TResource>
+
+type AsyncMethodKeys<T> = {
+  [K in keyof T]: T[K] extends (...args: any[]) => Promise<any> ? K : never
+}[keyof T]
+
+type AwaitedMethodReturn<T, K extends keyof T> = T[K] extends (...args: any[]) => Promise<any>
+  ? Awaited<ReturnType<T[K]>>
+  : never
 
 export const transform = async <
-  D extends LucidRow,
-  M extends keyof InstanceType<typeof BaseTransformer<D>>,
+  R extends LucidRow,
+  T extends TransformerConstructor<R>,
+  M extends AsyncMethodKeys<InstanceType<T>> | 'default' = 'default',
 >(
-  resource: D,
-  transformer: TransformerConstructor<D>,
+  resource: R,
+  transformer: T,
   method?: M
-) => {
+): Promise<AwaitedMethodReturn<InstanceType<T>, M>> => {
   const finalMethod = method || 'default'
 
-  const transformerInstance = new transformer(resource)
+  const instance: any = new transformer(resource)
+  const transformed = await instance[finalMethod]()
 
-  return await transformerInstance[finalMethod]()
+  return transformed
 }
 
 export const transformArray = async <
-  D extends LucidRow,
-  M extends keyof InstanceType<typeof BaseTransformer<D>>,
+  R extends LucidRow,
+  T extends TransformerConstructor<R>,
+  M extends AsyncMethodKeys<InstanceType<T>> | 'default' = 'default',
 >(
-  resource: D[],
-  transformer: TransformerConstructor<D>,
+  resource: R[],
+  transformer: T,
   method?: M
 ) => {
-  return await promiseMap(resource, async (model) => await transform(model, transformer, method))
+  return await promiseMap(resource, async (item) => await transform(item, transformer, method))
 }
 
 export const transformPage = async <
-  D extends LucidRow,
-  P extends SimplePaginatorContract<D>,
-  M extends keyof InstanceType<typeof BaseTransformer<D>>,
+  R extends LucidRow,
+  P extends SimplePaginatorContract<R>,
+  T extends TransformerConstructor<R>,
+  M extends AsyncMethodKeys<InstanceType<T>> | 'default' = 'default',
 >(
   resource: P,
-  transformer: TransformerConstructor<D>,
+  transformer: T,
   method?: M
 ) => {
   const serialized = resource.toJSON()

@@ -1,4 +1,4 @@
-import { api } from "@folie/backend-core/api";
+import { api } from "@localspace/backend-core/api";
 import { createTuyau } from "@tuyau/client";
 
 export const server = createTuyau({

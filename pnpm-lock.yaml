@@ -26,7 +26,10 @@ importers:
       '@adonisjs/lucid':
         specifier: ^21.6.1
         version: 21.8.0(@adonisjs/assembler@7.8.2(typescript@5.8.3))(@adonisjs/core@6.19.0(@adonisjs/assembler@7.8.2(typescript@5.8.3))(@vinejs/vine@3.0.1))(@vinejs/vine@3.0.1)(luxon@3.7.1)(mysql2@3.14.4)
-      '@folie/package-backend-lib':
+      '@folie/captcha':
+        specifier: ^0.0.2
+        version: 0.0.2
+      '@localspace/package-backend-lib':
         specifier: workspace:*
         version: link:../../packages/backend_lib
       '@tuyau/core':
@@ -44,6 +47,9 @@ importers:
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
+      ulid:
+        specifier: ^3.0.1
+        version: 3.0.1
     devDependencies:
       '@adonisjs/assembler':
         specifier: ^7.8.2
@@ -102,10 +108,10 @@ importers:
 
   frontend/app:
     dependencies:
-      '@folie/backend-core':
+      '@localspace/backend-core':
         specifier: workspace:*
         version: link:../../backend/core
-      '@folie/package-frontend-lib':
+      '@localspace/package-frontend-lib':
         specifier: workspace:*
         version: link:../../packages/frontend_lib
       '@mantine/core':
@@ -129,6 +135,9 @@ importers:
       '@mantine/spotlight':
         specifier: ^8.2.8
         version: 8.2.8(@mantine/core@8.2.8(@mantine/hooks@8.2.8(react@19.1.0))(@types/react@19.1.12)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(@mantine/hooks@8.2.8(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@marsidev/react-turnstile':
+        specifier: ^1.3.0
+        version: 1.3.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@next/third-parties':
         specifier: ^15.5.2
         version: 15.5.2(next@15.5.2(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
@@ -199,7 +208,7 @@ importers:
       '@adonisjs/lucid':
         specifier: ^21.6.1
         version: 21.8.0(@adonisjs/assembler@7.8.2(typescript@5.8.3))(@adonisjs/core@6.19.0(@adonisjs/assembler@7.8.2(typescript@5.8.3))(@vinejs/vine@3.0.1))(@vinejs/vine@3.0.1)(luxon@3.7.1)(mysql2@3.14.4)
-      '@folie/package-lib':
+      '@localspace/package-lib':
         specifier: workspace:*
         version: link:../lib
       '@types/pretty-hrtime':
@@ -638,6 +647,10 @@ packages:
   '@floating-ui/utils@0.2.10':
     resolution: {integrity: sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==}
 
+  '@folie/captcha@0.0.2':
+    resolution: {integrity: sha512-Y8YYDFj7yAUjku7bij8kn+4seJo+z1f59ZRs4F6k63FghZzW7G8EtAJI+O4sjheZlMtXYbdrQw7GAIfF4q6sZw==}
+    engines: {node: '>=20.6.0'}
+
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
     engines: {node: '>=18.18.0'}
@@ -916,6 +929,12 @@ packages:
     resolution: {integrity: sha512-xma5vcJlcR2UN6NZj0Rhskfppmz6wUTY/52EBU9sKZw60e1iiuTX2Bk/sfUa34VKZF4cRS46VLz2qstyCJne4Q==}
     peerDependencies:
       react: ^18.x || ^19.x
+
+  '@marsidev/react-turnstile@1.3.0':
+    resolution: {integrity: sha512-VO99Nynt+j4ETfMImQCj5LgbUKZ9mWPpy3RjP/3e/3vZu+FIphjEdU6g+cq4FeDoNshSxLlRzBTKcH5JMeM1GQ==}
+    peerDependencies:
+      react: ^17.0.2 || ^18.0.0 || ^19.0
+      react-dom: ^17.0.2 || ^18.0.0 || ^19.0
 
   '@napi-rs/wasm-runtime@0.2.12':
     resolution: {integrity: sha512-ZVWUcfwY4E/yPitQJl481FjFo3K22D6qF0DuFH6Y/nbnE11GY5uguDxZMGXPQ8WQ0128MXQD7TnfHyK4oWoIJQ==}
@@ -4016,6 +4035,10 @@ packages:
     resolution: {integrity: sha512-rvKSBiC5zqCCiDZ9kAOszZcDvdAHwwIKJG33Ykj43OKcWsnmcBRL09YTU4nOeHZ8Y2a7l1MgTd08SBe9A8Qj6A==}
     engines: {node: '>=18'}
 
+  ulid@3.0.1:
+    resolution: {integrity: sha512-dPJyqPzx8preQhqq24bBG1YNkvigm87K8kVEHCD+ruZg24t6IFEFv00xMWfxcC4djmFtiTLdFuADn4+DOz6R7Q==}
+    hasBin: true
+
   unbox-primitive@1.1.0:
     resolution: {integrity: sha512-nWJ91DjeOkej/TA8pXQ3myruKpKEYgqvpw9lz4OPHj/NWFNluYrjbz9j01CJ8yKQd2g4jFoOkINCTW2I5LEEyw==}
     engines: {node: '>= 0.4'}
@@ -4584,6 +4607,11 @@ snapshots:
 
   '@floating-ui/utils@0.2.10': {}
 
+  '@folie/captcha@0.0.2':
+    dependencies:
+      '@vinejs/vine': 3.0.1
+      ky: 1.9.1
+
   '@humanfs/core@0.19.1': {}
 
   '@humanfs/node@0.16.6':
@@ -4831,6 +4859,11 @@ snapshots:
   '@mantine/store@8.2.8(react@19.1.0)':
     dependencies:
       react: 19.1.0
+
+  '@marsidev/react-turnstile@1.3.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)':
+    dependencies:
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
 
   '@napi-rs/wasm-runtime@0.2.12':
     dependencies:
@@ -8039,6 +8072,8 @@ snapshots:
       random-bytes: 1.0.0
 
   uint8array-extras@1.5.0: {}
+
+  ulid@3.0.1: {}
 
   unbox-primitive@1.1.0:
     dependencies:

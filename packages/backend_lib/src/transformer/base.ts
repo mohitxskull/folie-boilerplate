@@ -1,8 +1,6 @@
 import { LucidRow } from '@adonisjs/lucid/types/model'
 import { DateTime } from 'luxon'
 
-type SerializedObject = Record<string, any> | Promise<Record<string, any>>
-
 export abstract class BaseTransformer<TResource extends LucidRow> {
   constructor(protected readonly resource: TResource) {}
 
@@ -12,7 +10,7 @@ export abstract class BaseTransformer<TResource extends LucidRow> {
    *
    * This method can be synchronous or asynchronous.
    */
-  abstract default(): SerializedObject
+  abstract default(): Promise<Record<string, any>>
 
   /**
    * Creates a new object containing only the specified keys from the source object.
@@ -44,10 +42,14 @@ export abstract class BaseTransformer<TResource extends LucidRow> {
     return result
   }
 
-  protected datetime(dt: DateTime): string
-  protected datetime(dt: DateTime | null): string | null
+  protected datetime(dt: DateTime<true>): string
+  protected datetime(dt: DateTime<true> | null): string | null
   protected datetime(dt: any): any {
     if (dt instanceof DateTime) {
+      if (!dt.isValid) {
+        throw new Error('Invalid DateTime')
+      }
+
       return dt.toISO()
     } else {
       return null
