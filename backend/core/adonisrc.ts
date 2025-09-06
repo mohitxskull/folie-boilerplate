@@ -30,6 +30,7 @@ export default defineConfig({
     () => import('@adonisjs/lucid/commands'),
     () => import('@tuyau/core/commands'),
     () => import('@adonisjs/bouncer/commands'),
+    () => import('@localspace/package-backend-lib/commands'),
   ],
 
   /*

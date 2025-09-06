@@ -13,7 +13,8 @@
     ".": "./build/index.js",
     "./exception": "./build/src/exceptions/index.js",
     "./transformer": "./build/src/transformer/index.js",
-    "./column/*": "./build/src/columns/*.js"
+    "./column/*": "./build/src/columns/*.js",
+    "./commands": "./build/src/commands/main.js"
   },
   "scripts": {
     "clean": "del-cli build",
@@ -21,7 +22,7 @@
     "lint": "eslint .",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "prebuild": "nr clean",
-    "build": "tsc",
+    "build": "tsc && adonis-kit index build/src/commands",
     "playground": "tsx bin/playground.ts",
     "check": "nr format && nr typecheck && nr lint"
   },
