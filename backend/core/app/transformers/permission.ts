@@ -1,5 +1,5 @@
 import Permission from '#models/permission'
-import { BaseTransformer } from '@localspace/package-backend-lib/transformer'
+import { BaseTransformer } from '@localspace/node-lib/transformer'
 
 export class PermissionTransformer extends BaseTransformer<Permission> {
   async default() {

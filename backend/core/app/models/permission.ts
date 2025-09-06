@@ -2,7 +2,7 @@ import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
 import { dbRef } from '#database/reference'
 import User from './user.js'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
-import { JSONColumn } from '@localspace/package-backend-lib/column/json'
+import { JSONColumn } from '@localspace/node-lib/column/json'
 
 export default class Permission extends BaseModel {
   static table = dbRef.permission.table.name

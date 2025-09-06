@@ -3,7 +3,7 @@ import env from '#start/env'
 import { safeEqual } from '@adonisjs/core/helpers'
 import type { HttpContext } from '@adonisjs/core/http'
 import type { NextFn } from '@adonisjs/core/types/http'
-import { BadRequestException } from '@localspace/package-backend-lib/exception'
+import { BadRequestException } from '@localspace/node-lib/exception'
 import vine from '@vinejs/vine'
 
 const schema = vine.compile(

@@ -1,4 +1,4 @@
-import { DBReference } from '@localspace/package-backend-lib'
+import { DBReference } from '@localspace/node-lib'
 
 const dbStructure = {
   user: {

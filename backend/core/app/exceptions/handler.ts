@@ -1,6 +1,6 @@
 import app from '@adonisjs/core/services/app'
 import { HttpContext, ExceptionHandler } from '@adonisjs/core/http'
-import { parseError } from '@localspace/package-backend-lib/exception'
+import { parseError } from '@localspace/node-lib/exception'
 
 export default class HttpExceptionHandler extends ExceptionHandler {
   /**

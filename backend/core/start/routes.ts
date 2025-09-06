@@ -9,8 +9,7 @@
 
 import { customerRoutes } from '#controllers/customer/routes'
 import router from '@adonisjs/core/services/router'
-// import { NotFoundException } from '@localspace/package-backend-lib/exception'
-import { throttle } from './limiter.js'
+import { userLimiter } from './limiter.js'
 
 router
   .group(() => {
@@ -22,8 +21,8 @@ router
 
             router.get('ping', [() => import('#controllers/ping_controller')])
           })
-          .prefix('V1')
+          .prefix('v1')
       })
       .prefix('api')
   })
-  .use([throttle])
+  .use([userLimiter])

@@ -1,5 +1,5 @@
 import User from '#models/user'
-import { BaseTransformer } from '@localspace/package-backend-lib/transformer'
+import { BaseTransformer } from '@localspace/node-lib/transformer'
 
 export class UserTransformer extends BaseTransformer<User> {
   async default() {

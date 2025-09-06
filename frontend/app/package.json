@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@localspace/backend-core": "workspace:*",
-    "@localspace/package-frontend-lib": "workspace:*",
+    "@localspace/ui": "workspace:*",
     "@mantine/core": "^8.2.8",
     "@mantine/dates": "^8.2.8",
     "@mantine/form": "^8.2.8",

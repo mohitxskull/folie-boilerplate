@@ -11,6 +11,12 @@
 
 import limiter from '@adonisjs/limiter/services/main'
 
-export const throttle = limiter.define('global', () => {
-  return limiter.allowRequests(10).every('1 minute')
+export const userLimiter = limiter.define('user', (ctx) => {
+  const user = ctx.auth.user
+
+  if (!user) {
+    return null
+  }
+
+  return limiter.allowRequests(100).every('1 minute').usingKey(user.id).blockFor('1 hour')
 })

@@ -4,3 +4,4 @@ export { numericKeyCompressor, type JsonValue } from './src/numeric_key_compress
 export { promiseMap } from './src/promise_map.js'
 export { tryPromise } from './src/try_promise.js'
 export { sleep } from './src/sleep.js'
+export { hash } from './src/hash.js'

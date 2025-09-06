@@ -1,5 +1,5 @@
 import AdminProfile from '#models/admin_profile'
-import { BaseTransformer } from '@localspace/package-backend-lib/transformer'
+import { BaseTransformer } from '@localspace/node-lib/transformer'
 
 export class AdminProfileTransformer extends BaseTransformer<AdminProfile> {
   async default() {

@@ -5,7 +5,7 @@ import {
   transform,
   transformArray,
   transformPage,
-} from '@localspace/package-backend-lib/transformer'
+} from '@localspace/node-lib/transformer'
 
 /**
  * The container bindings middleware binds classes to their request
@@ -33,7 +33,6 @@ declare module '@adonisjs/core/http' {
     transformArray: typeof transformArray
     transformPage: typeof transformPage
     deviceId: string
-    visitorId: string
     isNewDevice: boolean
   }
 }

@@ -43,21 +43,25 @@ new Ignitor(APP_ROOT, { importer: IMPORTER })
   })
   .httpServer()
   .start((handle) => {
-    if (!env.get('HTTPS')) {
-      return http.createServer(handle)
+    const httpServer = http.createServer(handle)
+
+    if (env.get('HTTPS')) {
+      const pems = selfsigned.generate([{ value: env.get('HOST'), type: 'commonName' }], {
+        days: 365,
+      })
+
+      const httpsServer = https.createServer(
+        {
+          key: pems.private,
+          cert: pems.cert,
+        },
+        handle
+      )
+
+      httpsServer.listen(env.get('HTTPS_PORT', env.get('PORT') + 1))
     }
 
-    const pems = selfsigned.generate([{ value: env.get('HOST'), type: 'commonName' }], {
-      days: 365,
-    })
-
-    return https.createServer(
-      {
-        key: pems.private,
-        cert: pems.cert,
-      },
-      handle
-    )
+    return httpServer
   })
   .catch((error) => {
     process.exitCode = 1

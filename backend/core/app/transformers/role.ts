@@ -1,5 +1,5 @@
 import Role from '#models/role'
-import { BaseTransformer } from '@localspace/package-backend-lib/transformer'
+import { BaseTransformer } from '@localspace/node-lib/transformer'
 
 export class RoleTransformer extends BaseTransformer<Role> {
   async default() {

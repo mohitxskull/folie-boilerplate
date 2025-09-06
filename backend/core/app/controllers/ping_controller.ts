@@ -11,6 +11,12 @@ export default class Controller {
   async handle(ctx: HttpContext) {
     const payload = await ctx.request.validateUsing(input)
 
-    return { message: 'pong', ip: ctx.request.ip(), name: payload?.name ?? 'Anonymous' }
+    return {
+      message: 'pong',
+      ip: ctx.request.ip(),
+      deviceId: ctx.deviceId,
+      isNewDevice: ctx.isNewDevice,
+      name: payload?.name ?? 'Anonymous',
+    }
   }
 }

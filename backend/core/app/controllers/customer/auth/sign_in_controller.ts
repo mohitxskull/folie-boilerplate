@@ -1,4 +1,4 @@
-import { BadRequestException, ForbiddenException } from '@localspace/package-backend-lib/exception'
+import { BadRequestException, ForbiddenException } from '@localspace/node-lib/exception'
 import vine from '@vinejs/vine'
 import type { HttpContext } from '@adonisjs/core/http'
 import { CustomerEMailS, CustomerPasswordS } from '#validators/customer'
@@ -8,7 +8,7 @@ import { CredentialTypeT } from '#validators/index'
 import { dbRef } from '#database/reference'
 import hash from '@adonisjs/core/services/hash'
 import User from '#models/user'
-import { serializeAccessToken } from '@localspace/package-backend-lib'
+import { serializeAccessToken } from '@localspace/node-lib'
 
 export const input = vine.compile(
   vine.object({

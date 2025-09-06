@@ -17,13 +17,16 @@ export default await Env.create(new URL('../', import.meta.url), {
   PORT: Env.schema.number(),
   HOST: Env.schema.string({ format: 'host' }),
   LOG_LEVEL: Env.schema.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent']),
+
   HTTPS: Env.schema.boolean.optional(),
+  HTTPS_PORT: Env.schema.number.optional(),
 
   MAINTENANCE: Env.schema.boolean.optional(),
 
   APP_NAME: Env.schema.string(),
   APP_KEY: Env.schema.string(),
   APP_URL: Env.schema.string(),
+  APP_CLIENT_URL: Env.schema.string(),
   APP_ACCESS_KEY: Env.schema.string(),
 
   CAPTCHA_PRIVATE_KEY: Env.schema.string(),

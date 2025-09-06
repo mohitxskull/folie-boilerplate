@@ -1,5 +1,5 @@
 import Credential from '#models/credential'
-import { BaseTransformer } from '@localspace/package-backend-lib/transformer'
+import { BaseTransformer } from '@localspace/node-lib/transformer'
 
 export class CredentialTransformer extends BaseTransformer<Credential> {
   async default() {

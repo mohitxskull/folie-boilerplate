@@ -41,9 +41,12 @@ importers:
       '@folie/captcha':
         specifier: ^0.0.2
         version: 0.0.2
-      '@localspace/package-backend-lib':
+      '@localspace/lib':
         specifier: workspace:*
-        version: link:../../packages/backend_lib
+        version: link:../../packages/lib
+      '@localspace/node-lib':
+        specifier: workspace:*
+        version: link:../../packages/node_lib
       '@tuyau/core':
         specifier: ^0.4.2
         version: 0.4.2(@adonisjs/core@6.19.0(@adonisjs/assembler@7.8.2(typescript@5.8.3))(@vinejs/vine@3.0.1))
@@ -126,9 +129,9 @@ importers:
       '@localspace/backend-core':
         specifier: workspace:*
         version: link:../../backend/core
-      '@localspace/package-frontend-lib':
+      '@localspace/ui':
         specifier: workspace:*
-        version: link:../../packages/frontend_lib
+        version: link:../../packages/ui
       '@mantine/core':
         specifier: ^8.2.8
         version: 8.2.8(@mantine/hooks@8.2.8(react@19.1.0))(@types/react@19.1.12)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -215,7 +218,40 @@ importers:
         specifier: ^5
         version: 5.8.3
 
-  packages/backend_lib:
+  packages/lib:
+    devDependencies:
+      '@adonisjs/eslint-config':
+        specifier: ^2.1.2
+        version: 2.1.2(eslint@9.34.0)(prettier@3.6.2)(typescript@5.8.3)
+      '@adonisjs/prettier-config':
+        specifier: ^1.4.5
+        version: 1.4.5
+      '@adonisjs/tsconfig':
+        specifier: ^1.4.1
+        version: 1.4.1
+      '@eslint/eslintrc':
+        specifier: ^3
+        version: 3.3.1
+      '@types/node':
+        specifier: ^20
+        version: 20.19.11
+      cpy-cli:
+        specifier: ^5.0.0
+        version: 5.0.0
+      del-cli:
+        specifier: ^5.1.0
+        version: 5.1.0
+      eslint:
+        specifier: ^9.34.0
+        version: 9.34.0
+      prettier:
+        specifier: ^3.5.3
+        version: 3.6.2
+      typescript:
+        specifier: ^5
+        version: 5.8.3
+
+  packages/node_lib:
     dependencies:
       '@adonisjs/core':
         specifier: ^6.18.0
@@ -223,7 +259,7 @@ importers:
       '@adonisjs/lucid':
         specifier: ^21.6.1
         version: 21.8.0(@adonisjs/assembler@7.8.2(typescript@5.8.3))(@adonisjs/core@6.19.0(@adonisjs/assembler@7.8.2(typescript@5.8.3))(@vinejs/vine@3.0.1))(@vinejs/vine@3.0.1)(luxon@3.7.1)(mysql2@3.14.4)
-      '@localspace/package-lib':
+      '@localspace/lib':
         specifier: workspace:*
         version: link:../lib
       '@types/pretty-hrtime':
@@ -279,7 +315,7 @@ importers:
         specifier: ^5
         version: 5.8.3
 
-  packages/frontend_lib:
+  packages/ui:
     dependencies:
       react:
         specifier: 19.1.0
@@ -323,40 +359,7 @@ importers:
         version: 15.5.2(eslint@9.34.0)(typescript@5.8.3)
       eslint-plugin-import:
         specifier: ^2.32.0
-        version: 2.32.0(@typescript-eslint/parser@8.41.0(eslint@9.34.0)(typescript@5.8.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.34.0)
-      prettier:
-        specifier: ^3.5.3
-        version: 3.6.2
-      typescript:
-        specifier: ^5
-        version: 5.8.3
-
-  packages/lib:
-    devDependencies:
-      '@adonisjs/eslint-config':
-        specifier: ^2.1.2
-        version: 2.1.2(eslint@9.34.0)(prettier@3.6.2)(typescript@5.8.3)
-      '@adonisjs/prettier-config':
-        specifier: ^1.4.5
-        version: 1.4.5
-      '@adonisjs/tsconfig':
-        specifier: ^1.4.1
-        version: 1.4.1
-      '@eslint/eslintrc':
-        specifier: ^3
-        version: 3.3.1
-      '@types/node':
-        specifier: ^20
-        version: 20.19.11
-      cpy-cli:
-        specifier: ^5.0.0
-        version: 5.0.0
-      del-cli:
-        specifier: ^5.1.0
-        version: 5.1.0
-      eslint:
-        specifier: ^9.34.0
-        version: 9.34.0
+        version: 2.32.0(eslint@9.34.0)
       prettier:
         specifier: ^3.5.3
         version: 3.6.2
@@ -6277,6 +6280,33 @@ snapshots:
       tsconfig-paths: 3.15.0
     optionalDependencies:
       '@typescript-eslint/parser': 8.41.0(eslint@9.34.0)(typescript@5.8.3)
+    transitivePeerDependencies:
+      - eslint-import-resolver-typescript
+      - eslint-import-resolver-webpack
+      - supports-color
+
+  eslint-plugin-import@2.32.0(eslint@9.34.0):
+    dependencies:
+      '@rtsao/scc': 1.1.0
+      array-includes: 3.1.9
+      array.prototype.findlastindex: 1.2.6
+      array.prototype.flat: 1.3.3
+      array.prototype.flatmap: 1.3.3
+      debug: 3.2.7
+      doctrine: 2.1.0
+      eslint: 9.34.0
+      eslint-import-resolver-node: 0.3.9
+      eslint-module-utils: 2.12.1(@typescript-eslint/parser@8.41.0(eslint@9.34.0)(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1)(eslint@9.34.0)
+      hasown: 2.0.2
+      is-core-module: 2.16.1
+      is-glob: 4.0.3
+      minimatch: 3.1.2
+      object.fromentries: 2.0.8
+      object.groupby: 1.0.3
+      object.values: 1.2.1
+      semver: 6.3.1
+      string.prototype.trimend: 1.0.9
+      tsconfig-paths: 3.15.0
     transitivePeerDependencies:
       - eslint-import-resolver-typescript
       - eslint-import-resolver-webpack

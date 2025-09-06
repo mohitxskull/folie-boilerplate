@@ -1,4 +1,4 @@
-import { BadRequestException, ForbiddenException } from '@localspace/package-backend-lib/exception'
+import { BadRequestException, ForbiddenException } from '@localspace/node-lib/exception'
 import vine from '@vinejs/vine'
 import type { HttpContext } from '@adonisjs/core/http'
 import { CustomerEMailS, CustomerNameS, CustomerPasswordS } from '#validators/customer'
