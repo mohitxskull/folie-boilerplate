@@ -97,7 +97,16 @@ export class DBReference {
           return `${tableConfig.name}.${rawColumns[columnKey]}`
         }) as ColumnsAccessor<typeof tableConfig>
 
-        Object.assign(columnsAccessor, rawColumns)
+        for (const colKey in rawColumns) {
+          if (Object.prototype.hasOwnProperty.call(rawColumns, colKey)) {
+            Object.defineProperty(columnsAccessor, colKey, {
+              value: rawColumns[colKey as keyof typeof rawColumns],
+              enumerable: true,
+              writable: false, // Match the `readonly` type
+              configurable: true,
+            })
+          }
+        }
 
         // Create the aliased column properties (e.g., { userIdC: 'userId' })
         const columnAliases = Object.keys(rawColumns).reduce(

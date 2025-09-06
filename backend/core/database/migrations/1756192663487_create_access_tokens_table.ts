@@ -1,27 +1,26 @@
+import { ULID_LENGTH } from '#config/ulid'
+import { dbRef } from '#database/reference'
 import { BaseSchema } from '@adonisjs/lucid/schema'
 
 export default class extends BaseSchema {
   protected tableName = 'auth_access_tokens'
 
   async up() {
-    this.schema.createTable(this.tableName, (table) => {
-      table.increments('id')
-      table
-        .integer('tokenable_id')
+    this.schema.createTable(this.tableName, (t) => {
+      t.increments('id')
+      t.string('tokenable_id', ULID_LENGTH)
         .notNullable()
-        .unsigned()
-        .references('id')
-        .inTable('users')
+        .references(dbRef.user.table.columns('id'))
         .onDelete('CASCADE')
 
-      table.string('type').notNullable()
-      table.string('name').nullable()
-      table.string('hash').notNullable()
-      table.text('abilities').notNullable()
-      table.timestamp('created_at')
-      table.timestamp('updated_at')
-      table.timestamp('last_used_at').nullable()
-      table.timestamp('expires_at').nullable()
+      t.string('type').notNullable()
+      t.string('name').nullable()
+      t.string('hash').notNullable()
+      t.text('abilities').notNullable()
+      t.timestamp('created_at')
+      t.timestamp('updated_at')
+      t.timestamp('last_used_at').nullable()
+      t.timestamp('expires_at').nullable()
     })
   }
 

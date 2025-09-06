@@ -17,6 +17,7 @@ export default await Env.create(new URL('../', import.meta.url), {
   PORT: Env.schema.number(),
   HOST: Env.schema.string({ format: 'host' }),
   LOG_LEVEL: Env.schema.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent']),
+  HTTPS: Env.schema.boolean.optional(),
 
   MAINTENANCE: Env.schema.boolean.optional(),
 
@@ -28,14 +29,17 @@ export default await Env.create(new URL('../', import.meta.url), {
   CAPTCHA_PRIVATE_KEY: Env.schema.string(),
   CAPTCHA_OFF: Env.schema.boolean.optional(),
 
-  /*
-  |----------------------------------------------------------
-  | Variables for configuring database connection
-  |----------------------------------------------------------
-  */
   DB_HOST: Env.schema.string({ format: 'host' }),
   DB_PORT: Env.schema.number(),
   DB_USER: Env.schema.string(),
   DB_PASSWORD: Env.schema.string.optional(),
-  DB_DATABASE: Env.schema.string(),
+  DB_SSL: Env.schema.boolean.optional(),
+
+  LIMITER_STORE: Env.schema.enum(['database', 'memory'] as const),
+
+  DRIVE_DISK: Env.schema.enum(['fs'] as const),
+
+  REDIS_HOST: Env.schema.string({ format: 'host' }),
+  REDIS_PORT: Env.schema.number(),
+  REDIS_PASSWORD: Env.schema.string.optional(),
 })

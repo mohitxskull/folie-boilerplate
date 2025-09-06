@@ -9,25 +9,21 @@
 
 import { customerRoutes } from '#controllers/customer/routes'
 import router from '@adonisjs/core/services/router'
-import { NotFoundException } from '@localspace/package-backend-lib/exception'
+// import { NotFoundException } from '@localspace/package-backend-lib/exception'
+import { throttle } from './limiter.js'
 
 router
   .group(() => {
     router
       .group(() => {
-        customerRoutes()
+        router
+          .group(() => {
+            customerRoutes()
 
-        router.get('ping', [() => import('#controllers/ping_controller')])
+            router.get('ping', [() => import('#controllers/ping_controller')])
+          })
+          .prefix('V1')
       })
-      .prefix('V1')
+      .prefix('api')
   })
-  .prefix('api')
-
-router.any('*', (ctx) => {
-  throw new NotFoundException('Route not found', {
-    metadata: {
-      route: ctx.request.url(),
-      method: ctx.request.method(),
-    },
-  })
-})
+  .use([throttle])

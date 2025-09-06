@@ -16,6 +16,8 @@
 |
 */
 
+process.env.NODE_ENV = process.env.ENV || 'development'
+
 /**
  * Register hook to process TypeScript files using ts-node
  */

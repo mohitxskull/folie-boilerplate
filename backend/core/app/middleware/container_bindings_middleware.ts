@@ -32,5 +32,8 @@ declare module '@adonisjs/core/http' {
     transform: typeof transform
     transformArray: typeof transformArray
     transformPage: typeof transformPage
+    deviceId: string
+    visitorId: string
+    isNewDevice: boolean
   }
 }

@@ -59,9 +59,13 @@
   },
   "dependencies": {
     "@adonisjs/auth": "^9.4.0",
+    "@adonisjs/bouncer": "^3.1.6",
     "@adonisjs/core": "^6.18.0",
     "@adonisjs/cors": "^2.2.1",
+    "@adonisjs/drive": "^3.4.1",
+    "@adonisjs/limiter": "^2.4.0",
     "@adonisjs/lucid": "^21.6.1",
+    "@adonisjs/redis": "^9.2.0",
     "@folie/captcha": "^0.0.2",
     "@localspace/package-backend-lib": "workspace:*",
     "@tuyau/core": "^0.4.2",
@@ -69,6 +73,7 @@
     "luxon": "^3.7.1",
     "mysql2": "^3.14.3",
     "reflect-metadata": "^0.2.2",
+    "selfsigned": "^3.0.1",
     "ulid": "^3.0.1"
   },
   "hotHook": {
