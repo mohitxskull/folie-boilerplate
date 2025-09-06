@@ -1,5 +1,6 @@
 import { LucidRow } from '@adonisjs/lucid/types/model'
 import { DateTime } from 'luxon'
+import { transform, transformArray, transformPage } from './transform.js'
 
 export abstract class BaseTransformer<TResource extends LucidRow> {
   constructor(protected readonly resource: TResource) {}
@@ -55,4 +56,8 @@ export abstract class BaseTransformer<TResource extends LucidRow> {
       return null
     }
   }
+
+  protected transform = transform
+  protected transformArray = transformArray
+  protected transformPage = transformPage
 }

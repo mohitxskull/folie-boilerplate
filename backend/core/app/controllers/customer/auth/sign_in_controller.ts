@@ -9,6 +9,8 @@ import { dbRef } from '#database/reference'
 import hash from '@adonisjs/core/services/hash'
 import User from '#models/user'
 import { serializeAccessToken } from '@localspace/node-lib'
+import db from '@adonisjs/lucid/services/db'
+import { DateTime } from 'luxon'
 
 export const input = vine.compile(
   vine.object({
@@ -25,50 +27,64 @@ export default class Controller {
 
     const payload = await ctx.request.validateUsing(input)
 
-    const credential = await Credential.findBy({
-      [dbRef.credential.identifierC]: payload.email,
-      [dbRef.credential.typeC]: 'email' as CredentialTypeT,
-    })
+    const trx = await db.transaction()
 
-    if (!credential) {
-      await hash.make(payload.password)
+    try {
+      const credential = await Credential.findBy(
+        {
+          [dbRef.credential.identifierC]: payload.email,
+          [dbRef.credential.typeC]: 'email' as CredentialTypeT,
+        },
+        {
+          client: trx,
+        }
+      )
 
-      throw new BadRequestException('Invalid credentials', {
-        source: 'email',
-        reason: 'Email not found',
-      })
-    }
+      if (!credential) {
+        await hash.make(payload.password)
 
-    const credentialPassword = credential.password
-
-    if (!credentialPassword) {
-      throw new Error('Credential password is missing')
-    }
-
-    if (!(await hash.verify(credentialPassword, payload.password))) {
-      throw new BadRequestException('Invalid credentials', {
-        source: 'email',
-        reason: 'Password is incorrect',
-      })
-    }
-
-    await credential.load('user')
-
-    const user = credential.user
-
-    const existingTokens = await User.accessTokens.all(user)
-
-    if (existingTokens.length > 0) {
-      for await (const token of existingTokens) {
-        await User.accessTokens.delete(user, token.identifier)
+        throw new BadRequestException('Invalid credentials', {
+          source: 'email',
+          reason: 'Email not found',
+        })
       }
-    }
 
-    const token = await User.accessTokens.create(user)
+      const credentialPassword = credential.password
 
-    return {
-      token: serializeAccessToken(token),
-      message: `You have successfully signed in!`,
+      if (!credentialPassword) {
+        throw new Error('Credential password is missing')
+      }
+
+      if (!(await hash.verify(credentialPassword, payload.password))) {
+        throw new BadRequestException('Invalid credentials', {
+          source: 'email',
+          reason: 'Password is incorrect',
+        })
+      }
+
+      credential.usedAt = DateTime.now()
+
+      await Promise.all([credential.save(), credential.load('user')])
+
+      const user = credential.user
+
+      const existingTokens = await User.accessTokens.all(user)
+
+      if (existingTokens.length > 0) {
+        for await (const token of existingTokens) {
+          await User.accessTokens.delete(user, token.identifier)
+        }
+      }
+
+      const token = await User.accessTokens.create(user)
+
+      return {
+        token: serializeAccessToken(token),
+        message: `You have successfully signed in!`,
+      }
+    } catch (error) {
+      await trx.rollback()
+      throw error
     }
   }
 }

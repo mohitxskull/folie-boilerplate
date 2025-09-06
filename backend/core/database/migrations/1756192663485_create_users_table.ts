@@ -11,7 +11,7 @@ export default class extends BaseSchema {
       t.string(dbRef.user.name).nullable()
 
       t.timestamp(dbRef.user.createdAt).notNullable()
-      t.timestamp(dbRef.user.updatedAt).nullable()
+      t.timestamp(dbRef.user.updatedAt).notNullable()
     })
   }
 

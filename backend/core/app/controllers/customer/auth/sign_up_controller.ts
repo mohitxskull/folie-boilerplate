@@ -8,7 +8,6 @@ import { CredentialTypeT } from '#validators/index'
 import { dbRef } from '#database/reference'
 import User from '#models/user'
 import db from '@adonisjs/lucid/services/db'
-import { UserTransformer } from '#transformers/user'
 
 export const input = vine.compile(
   vine.object({
@@ -42,9 +41,14 @@ export default class Controller {
     const trx = await db.transaction()
 
     try {
-      const user = await User.create({
-        name: payload.name,
-      })
+      const user = await User.create(
+        {
+          name: payload.name,
+        },
+        {
+          client: trx,
+        }
+      )
 
       await user.related('credentials').create({
         type: 'email',
@@ -52,9 +56,13 @@ export default class Controller {
         password: payload.password,
       })
 
+      await user.related('customerProfile').create({
+        email: payload.email,
+      })
+
       await trx.commit()
 
-      return { user: await ctx.transformArray([user], UserTransformer, 'default') }
+      return { user: await ctx.transform(user) }
     } catch (error) {
       await trx.rollback()
       throw error

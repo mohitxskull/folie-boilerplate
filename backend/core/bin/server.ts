@@ -11,10 +11,6 @@
 
 import 'reflect-metadata'
 import { Ignitor, prettyPrintError } from '@adonisjs/core'
-import https from 'node:https'
-import http from 'node:http'
-import selfsigned from 'selfsigned'
-import env from '#start/env'
 
 /**
  * URL to the application root. AdonisJS need it to resolve
@@ -42,27 +38,7 @@ new Ignitor(APP_ROOT, { importer: IMPORTER })
     app.listenIf(app.managedByPm2, 'SIGINT', () => app.terminate())
   })
   .httpServer()
-  .start((handle) => {
-    const httpServer = http.createServer(handle)
-
-    if (env.get('HTTPS')) {
-      const pems = selfsigned.generate([{ value: env.get('HOST'), type: 'commonName' }], {
-        days: 365,
-      })
-
-      const httpsServer = https.createServer(
-        {
-          key: pems.private,
-          cert: pems.cert,
-        },
-        handle
-      )
-
-      httpsServer.listen(env.get('HTTPS_PORT', env.get('PORT') + 1))
-    }
-
-    return httpServer
-  })
+  .start()
   .catch((error) => {
     process.exitCode = 1
     prettyPrintError(error)

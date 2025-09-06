@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon'
 import { BaseModel, beforeCreate, column, hasMany, hasOne, manyToMany } from '@adonisjs/lucid/orm'
-import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
+import { AccessToken, DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
 import { dbRef } from '#database/reference'
 import { ulid } from '#config/ulid'
 import Membership from './membership.js'
@@ -10,12 +10,19 @@ import Credential from './credential.js'
 import Permission from './permission.js'
 import CustomerProfile from './customer_profile.js'
 import AdminProfile from './admin_profile.js'
+import { UserTransformer } from '#transformers/user'
 
 export default class User extends BaseModel {
   static selfAssignPrimaryKey = true
   static table = dbRef.user.table.name
 
-  static accessTokens = DbAccessTokensProvider.forModel(User)
+  static accessTokens = DbAccessTokensProvider.forModel(User, {
+    expiresIn: '1w',
+  })
+
+  transformer = UserTransformer
+
+  declare currentAccessToken: AccessToken
 
   // Columns ===========================
 

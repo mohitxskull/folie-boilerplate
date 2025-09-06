@@ -39,6 +39,7 @@ const dbStructure = {
       updatedAt: 'updated_at',
       createdAt: 'created_at',
       usedAt: 'used_at',
+      verifiedAt: 'verified_at',
     },
   },
   permission: {

@@ -1,5 +1,5 @@
 import { LucidRow } from '@adonisjs/lucid/types/model'
-import { BaseTransformer } from './base.js'
+import type { BaseTransformer } from './base.js'
 import vine from '@vinejs/vine'
 import { SimplePaginatorContract } from '@adonisjs/lucid/types/querybuilder'
 import { promiseMap } from '@localspace/lib'
@@ -29,48 +29,48 @@ type AwaitedMethodReturn<T, K extends keyof T> = T[K] extends (...args: any[]) =
   : never
 
 export const transform = async <
-  R extends LucidRow,
-  T extends TransformerConstructor<R>,
-  M extends AsyncMethodKeys<InstanceType<T>> | 'default' = 'default',
+  R extends LucidRow & {
+    transformer: TransformerConstructor<R>
+  },
+  M extends AsyncMethodKeys<InstanceType<R['transformer']>> | 'default' = 'default',
 >(
   resource: R,
-  transformer: T,
   method?: M
-): Promise<AwaitedMethodReturn<InstanceType<T>, M>> => {
+): Promise<AwaitedMethodReturn<InstanceType<R['transformer']>, M>> => {
   const finalMethod = method || 'default'
 
-  const instance: any = new transformer(resource)
+  const instance: any = new resource.transformer(resource)
   const transformed = await instance[finalMethod]()
 
   return transformed
 }
 
 export const transformArray = async <
-  R extends LucidRow,
-  T extends TransformerConstructor<R>,
-  M extends AsyncMethodKeys<InstanceType<T>> | 'default' = 'default',
+  R extends LucidRow & {
+    transformer: TransformerConstructor<R>
+  },
+  M extends AsyncMethodKeys<InstanceType<R['transformer']>> | 'default' = 'default',
 >(
   resource: R[],
-  transformer: T,
   method?: M
 ) => {
-  return await promiseMap(resource, async (item) => await transform(item, transformer, method))
+  return await promiseMap(resource, async (item) => await transform(item, method))
 }
 
 export const transformPage = async <
-  R extends LucidRow,
+  R extends LucidRow & {
+    transformer: TransformerConstructor<R>
+  },
   P extends SimplePaginatorContract<R>,
-  T extends TransformerConstructor<R>,
-  M extends AsyncMethodKeys<InstanceType<T>> | 'default' = 'default',
+  M extends AsyncMethodKeys<InstanceType<R['transformer']>> | 'default' = 'default',
 >(
   resource: P,
-  transformer: T,
   method?: M
 ) => {
   const serialized = resource.toJSON()
 
   return {
-    data: await transformArray(serialized.data, transformer, method),
+    data: await transformArray(serialized.data, method),
     meta: await vine.validate({
       schema: PaginationMetaSchema,
       data: serialized.meta,

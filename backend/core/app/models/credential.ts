@@ -4,9 +4,12 @@ import User from './user.js'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import { type CredentialTypeT } from '#validators/index'
 import hash from '@adonisjs/core/services/hash'
+import { DateTime } from 'luxon'
 
 export default class Credential extends BaseModel {
   static table = dbRef.credential.table.name
+
+  // Columns ===========================
 
   @column({ isPrimary: true })
   declare id: number
@@ -23,12 +26,28 @@ export default class Credential extends BaseModel {
   @column({ serializeAs: null })
   declare password: string | null
 
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime<true>
+
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime<true>
+
+  @column.dateTime()
+  declare usedAt: DateTime<true> | null
+
+  @column.dateTime()
+  declare verifiedAt: DateTime<true> | null
+
+  // Hooks =============================
+
   @beforeSave()
   static async hashPassword(row: Credential) {
     if (row.$dirty.password) {
       row.password = row.password ? await hash.make(row.password) : null
     }
   }
+
+  // Relations =========================
 
   @belongsTo(() => User)
   declare user: BelongsTo<typeof User>
